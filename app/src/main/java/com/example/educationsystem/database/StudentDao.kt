@@ -9,4 +9,10 @@ interface StudentDao {
 
     @Query("SELECT * FROM student_table")
     fun getAllStudents(): List<Student>
+
+    @Update(entity = Student::class, onConflict = OnConflictStrategy.REPLACE)
+    fun updateStudent(student: Student)
+
+    @Delete
+    fun deleteStudent(student: Student)
 }

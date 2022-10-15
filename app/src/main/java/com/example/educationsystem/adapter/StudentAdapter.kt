@@ -2,16 +2,22 @@ package com.example.educationsystem.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.example.educationsystem.R
+import com.example.educationsystem.activity.AddStudentActivity
 import com.example.educationsystem.database.Course
 import com.example.educationsystem.database.Student
+import com.example.educationsystem.database.StudentDao
 import com.example.educationsystem.databinding.StudentLayoutBinding
 
-class StudentAdapter : RecyclerView.Adapter<StudentAdapter.StudentViewHolder>() {
+class StudentAdapter() : RecyclerView.Adapter<StudentAdapter.StudentViewHolder>() {
 
-    lateinit var onItemClicked: (Student) -> Unit
+    lateinit var onDeleteClicked: (Student, pos: Int) -> Unit
+    lateinit var onEditClicked: (Student, pos: Int) -> Unit
+
 
     private val diffCallBack = object : DiffUtil.ItemCallback<Student>() {
         override fun areItemsTheSame(oldItem: Student, newItem: Student): Boolean {
@@ -51,7 +57,13 @@ class StudentAdapter : RecyclerView.Adapter<StudentAdapter.StudentViewHolder>() 
                 textLasName.text = student.middleName
             }
             itemView.setOnClickListener {
-                onItemClicked(student)
+                student.name
+            }
+            binding.btnDelete.setOnClickListener {
+                onDeleteClicked(student, adapterPosition)
+            }
+            binding.btnEdit.setOnClickListener {
+                onEditClicked(student, adapterPosition)
             }
         }
     }
